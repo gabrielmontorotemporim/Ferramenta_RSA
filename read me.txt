@@ -1,0 +1,88 @@
+# Ferramentas de Criptografia para Sala de Aula
+
+Ferramentas desenvolvidas para a sequência didática "Do Império Romano à Era Digital", parte de uma pesquisa de mestrado do PROFMAT (UFU) sobre criptografia como recurso didático no Ensino Fundamental.
+
+## Conteúdo do repositório
+
+| Item | Descrição |
+|---|---|
+| `RSA/` | Ferramenta de cifragem e decifragem com o algoritmo RSA |
+| `Cifra_de_Cesar/` | Ferramenta que quebra a Cifra de César por força bruta |
+| `mural_rsa.html` | Mural criptográfico (abra no navegador) |
+
+---
+
+## RSA
+
+### Arquivos
+
+| Arquivo | Descrição |
+|---|---|
+| `FerramentaRSA_V3` | Executável pronto. Não exige instalar Python. |
+| `funcoes_rsa.py` | Funções do algoritmo RSA descritas no texto da pesquisa (MDC, primalidade, geração de chaves, conversão, blocos, cifragem e decifragem). |
+| `rsa_tool_v3.py` | Código-fonte da interface gráfica. Usa as funções de `funcoes_rsa.py`. |
+
+### Como usar o executável
+
+1. Baixe o arquivo `FerramentaRSA_V3`.
+2. Execute o arquivo com dois cliques.
+3. Siga as instruções na tela para gerar as chaves e cifrar ou decifrar mensagens.
+
+### Como rodar o código-fonte
+
+1. Instale o Python 3.
+2. Instale a biblioteca da interface: `pip install customtkinter`
+3. Mantenha `funcoes_rsa.py` e `rsa_tool_v3.py` na mesma pasta.
+4. Execute: `python rsa_tool_v3.py`
+
+> Ferramenta educacional: usa números primos pequenos e não deve ser usada para proteger informações reais.
+
+---
+
+## Cifra de César
+
+### Arquivos
+
+| Arquivo | Descrição |
+|---|---|
+| `quebra_cesar_v2` (executável) | Programa pronto com interface gráfica. |
+| `dicionario.txt` | Lista de palavras da língua portuguesa usada para reconhecer a mensagem correta. |
+| `quebra_cesar_v2.py` | Código-fonte da interface gráfica. |
+| `quebrar_cesar.py` | Versão para terminal. |
+
+### Como usar o executável
+
+1. Baixe o executável `quebra_cesar_v2` **e** o arquivo `dicionario.txt`.
+2. Coloque os dois na mesma pasta.
+3. Execute `quebra_cesar_v2`.
+4. Digite a mensagem cifrada na caixa de texto.
+5. Clique em **Decifrar**. A mensagem decifrada aparece abaixo dos botões.
+6. Clique em **Limpar** para apagar as caixas de texto.
+
+### Como rodar o código-fonte
+
+1. Instale o Python 3.
+2. Para a interface gráfica, instale: `pip install customtkinter`
+3. Mantenha `dicionario.txt` na mesma pasta do código.
+4. Execute a interface: `python quebra_cesar_v2.py`
+5. Ou execute a versão de terminal: `python quebrar_cesar.py`
+
+### Observações
+
+- Use mensagens **sem acentos**. Letras acentuadas não são restauradas corretamente.
+- Em mensagens muito curtas, mais de um deslocamento pode gerar palavras válidas.
+
+---
+
+## Mural criptográfico
+
+Abra o arquivo `mural_rsa.html` no navegador. Não é necessário instalar nada.
+
+---
+
+## Créditos
+
+- Lista de palavras (`dicionario.txt`): material do Instituto de Matemática e Estatística da USP (IME-USP), derivado do trabalho de Ricardo Ueda Karpischek para o dicionário `br.ispell`.
+- Código desenvolvido com auxílio de *vibe coding* utilizando o Claude Sonnet 5.5. A concepção e a estrutura lógica são do autor.
+
+**Autor:** Gabriel Montoro Temporim
