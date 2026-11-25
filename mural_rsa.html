@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Mural da Aula - Troca de Mensagens Criptografadas (RSA)</title>
+<style>
+  :root{
+    --azul-escuro:#1c3a5e;
+    --azul-medio:#2f5f8a;
+    --azul-claro:#dbe8f2;
+    --cinza-caixa:#d9d9d9;
+    --dourado:#c9a227;
+    --borda:#8fa9c2;
+    --fundo:#eef3f8;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:var(--fundo);
+    margin:0;
+    padding:24px;
+    color:#1a1a1a;
+    font-size:19px;
+  }
+  .painel{
+    max-width:1500px;
+    margin:0 auto;
+    background:#f4f7fa;
+    border:2px solid var(--borda);
+    border-radius:10px;
+    padding:20px 28px 32px;
+    box-shadow:0 4px 14px rgba(0,0,0,.12);
+  }
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
+    padding-bottom:14px;
+    border-bottom:3px solid var(--azul-escuro);
+    margin-bottom:18px;
+    flex-wrap:wrap;
+  }
+  header h1{
+    font-size:2em;
+    text-align:center;
+    color:var(--azul-escuro);
+    letter-spacing:.5px;
+    margin:0;
+  }
+  .icone{font-size:2em;}
+  .btn-apagar{
+    background:#a3312b;
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    padding:10px 18px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    letter-spacing:.5px;
+  }
+  .btn-apagar:hover{background:#7f2521;}
+
+  .colunas{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    gap:18px;
+    align-items:start;
+  }
+
+  .titulo-coluna{
+    background:var(--azul-escuro);
+    color:#fff;
+    padding:8px 14px;
+    border-radius:6px;
+    font-weight:700;
+    text-align:center;
+    margin-bottom:14px;
+    font-size:1.25em;
+  }
+  .titulo-coluna span{font-weight:400; font-size:.85em;}
+
+  /* ---- COLUNA 1 ---- */
+  .grid-grupos{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:12px;
+  }
+  .card-grupo{
+    background:#fff;
+    border:2px solid var(--azul-medio);
+    border-radius:8px;
+    padding:10px 12px;
+    position:relative;
+  }
+  .card-grupo h4{
+    margin:4px 0 10px;
+    font-size:1.3em;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .cadeado{font-size:1.3em;}
+  .card-grupo .rotulo{
+    font-size:1.05em;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .campo{
+    background:var(--cinza-caixa);
+    border:1px solid #b7b7b7;
+    border-radius:4px;
+    padding:6px 10px;
+    margin-bottom:6px;
+    font-size:1.1em;
+    min-height:1.5em;
+  }
+  .campo[contenteditable="true"]:focus{
+    outline:2px solid var(--azul-medio);
+    background:#fff;
+  }
+  .linha-campo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:6px;
+  }
+  .linha-campo label{font-size:1.05em; font-weight:600; width:22px;}
+  .linha-campo .campo{flex:1; margin-bottom:0;}
+
+  /* ---- SEPARADOR CENTRAL ---- */
+  .separador{
+    writing-mode:vertical-rl;
+    text-orientation:mixed;
+    background:var(--azul-escuro);
+    color:#fff;
+    font-weight:700;
+    font-size:1.05em;
+    padding:10px 6px;
+    border-radius:6px;
+    align-self:stretch;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    letter-spacing:.5px;
+  }
+
+  /* ---- COLUNA 2 (blocos fechados por par) ---- */
+  .bloco-par{
+    background:#fff;
+    border:2px solid var(--azul-escuro);
+    border-radius:8px;
+    padding:12px 14px;
+    margin-bottom:16px;
+    position:relative;
+  }
+  .grid-blocos{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .bloco-par h3{
+    text-align:center;
+    margin:2px 0 12px;
+    font-size:1.35em;
+    color:var(--azul-escuro);
+  }
+  .troca{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+    font-size:1.12em;
+  }
+  .seta{font-weight:700; color:var(--azul-medio); font-size:1.3em;}
+  .troca .campo{min-width:90px; flex:1;}
+  .troca strong{white-space:nowrap;}
+  .cifra{
+    display:flex; align-items:center; gap:6px;
+  }
+  .cadeado-fechado{color:var(--dourado);}
+
+  .rodape-nota{
+    margin-top:18px;
+    font-size:.8em;
+    color:#555;
+    text-align:center;
+  }
+
+  @media print{
+    body{background:#fff; padding:0;}
+    .painel{box-shadow:none; border:none;}
+  }
+
+  @media (max-width:600px){
+    .colunas{grid-template-columns:1fr;}
+    .separador{writing-mode:horizontal-tb; padding:6px;}
+    .grid-grupos{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="painel">
+  <header>
+    <span class="icone">🔑</span>
+    <h1>MURAL DA AULA — TROCA DE MENSAGENS CRIPTOGRAFADAS (RSA)</h1>
+  </header>
+
+  <div class="colunas">
+
+    <!-- COLUNA 1 -->
+    <div>
+      <div class="titulo-coluna">CHAVES PÚBLICAS</div>
+      <div class="grid-grupos" id="coluna1"></div>
+    </div>
+
+    <!-- SEPARADOR -->
+    <div class="separador"></div>
+
+    <!-- COLUNA 2 -->
+    <div>
+      <div class="titulo-coluna">MENSAGENS TROCADAS</div>
+      <div class="grid-blocos" id="coluna2"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------- COLUNA 1: 8 cartões de chave pública ----------
+const grupos = [1,2,3,4,5,6,7,8];
+const col1 = document.getElementById('coluna1');
+grupos.forEach(g=>{
+  const card = document.createElement('div');
+  card.className = 'card-grupo';
+  card.innerHTML = `
+    <h4>Grupo ${g} <span class="cadeado">🔓</span></h4>
+    <div class="rotulo">Chave Pública</div>
+    <div class="linha-campo">
+      <span>n =</span>
+      <div class="campo" contenteditable="true"></div>
+    </div>
+    <div class="linha-campo">
+      <span>e =</span>
+      <div class="campo" contenteditable="true"></div>
+    </div>
+  `;
+  col1.appendChild(card);
+});
+
+// ---------- COLUNA 2: 4 blocos fechados (pares) ----------
+const pares = [[1,2],[3,4],[5,6],[7,8]];
+const col2 = document.getElementById('coluna2');
+pares.forEach((par,i)=>{
+  const [a,b] = par;
+  const bloco = document.createElement('div');
+  bloco.className = 'bloco-par';
+  bloco.innerHTML = `
+    <h3>Grupo ${a} &#8596; Grupo ${b}</h3>
+
+    <div class="troca">
+      <strong>Grupo ${a} &#8594; Grupo ${b}</strong>
+    </div>
+    <div class="troca">
+      <span>Mensagem:</span>
+      <div class="campo" contenteditable="true"></div>
+      
+    </div>
+
+    <div class="troca" style="margin-top:10px;">
+      <strong>Grupo ${b} &#8594; Grupo ${a}</strong>
+    </div>
+    <div class="troca">
+      <span>Mensagem:</span>
+      <div class="campo" contenteditable="true"></div>
+      
+    </div>
+  `;
+  col2.appendChild(bloco);
+});
+
+
+</script>
+
+</body>
+</html>
